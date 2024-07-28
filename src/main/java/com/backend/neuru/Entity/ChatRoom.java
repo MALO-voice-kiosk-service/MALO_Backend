@@ -9,14 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="user")
-public class UserEntity {
+@Table(name="chatroom")
+public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userid;
-    private String name;
-    private String nickname;
-    private String password;
+    private String chatroom_name;
 }
