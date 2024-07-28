@@ -1,13 +1,13 @@
-package com.backend.malo;
+package com.backend.neuru;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MaloApplication {
+public class NeuruApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MaloApplication.class, args);
+		SpringApplication.run(NeuruApplication.class, args);
 	}
 
 }
