@@ -19,7 +19,7 @@ public class PostEntity {
     private String post_content;
     private int post_tag;
     private String location;
-    private String post_img;
+//    private String post_img;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
