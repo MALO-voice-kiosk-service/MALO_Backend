@@ -1,5 +1,7 @@
 package com.backend.neuru.Controller;
 
+import com.backend.neuru.DTO.AuthDTO;
+import com.backend.neuru.DTO.ResponseDTO;
 import com.backend.neuru.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +23,9 @@ public class UserController {
     private final UserService userService;
 
     // 회원가입 API
-//    @PostMapping(value = "/signup")
-//    public ResponseDTO<?> signup(@Valid @RequestBody AuthDTO authDTO){
-//        return authService.signup(authDTO);
-//    }
+    @PostMapping(value = "/signup")
+    public ResponseDTO<?> signup(@RequestBody AuthDTO authDTO){
+        return userService.signup(authDTO);
+    }
 
 }
