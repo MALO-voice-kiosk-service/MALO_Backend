@@ -55,7 +55,7 @@ public class UserService {
             log.info("회원가입한 유저가 아님");
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }else {
-            return ResponseDTO.success("회원가입 성공", longinDTO.getUserid());
+            return ResponseDTO.success("로그인 성공", longinDTO.getUserid());
         }
     }
 
@@ -86,7 +86,7 @@ public class UserService {
     public ResponseDTO<?> getUser(Long id) {
         Optional<UserEntity> userEntity = userRepository.findById(id);
         if(userEntity.isPresent()) {
-            return ResponseDTO.success("회원정보 수정 완료", userEntity.get());
+            return ResponseDTO.success("회원정보 조회 완료", userEntity.get());
         } else{
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
