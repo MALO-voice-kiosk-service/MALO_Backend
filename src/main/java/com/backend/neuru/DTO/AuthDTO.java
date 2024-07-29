@@ -11,9 +11,30 @@ import lombok.Setter;
 @Setter
 public class AuthDTO {
 
-    private String userid;
-    private String name;
-    private String nickname;
-    private String password;
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class SignupDTO{
+        private String userid;
+        private String name;
+        private String nickname;
+        private String password;
+    }
+
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class LonginDTO{
+        private String userid;
+        private String password;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class logoutDTO{
+        private Long userid;
+    }
 
 }
