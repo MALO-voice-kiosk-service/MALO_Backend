@@ -15,6 +15,9 @@ public class WalkwayEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String walkway_title;
+    private String walkway_description;
+
     @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)
     private LocationEntity location;
