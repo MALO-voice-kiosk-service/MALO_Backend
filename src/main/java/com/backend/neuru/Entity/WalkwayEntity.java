@@ -18,9 +18,5 @@ public class WalkwayEntity {
     private String walkway_title;
     private String walkway_description;
 
-    @ManyToOne
-    @JoinColumn(name = "location_id", nullable = false)
-    private LocationEntity location;
-
 
 }
