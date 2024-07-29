@@ -14,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -36,4 +33,27 @@ public class PostController {
         return postService.registerPost(registerPostDTO);
     }
 
+    // 모든 게시글 조회 API
+    @GetMapping(value = "")
+    public ResponseDTO<?> getAllPost() {
+        return postService.getAllPost();
+    }
+
+    // 특정 게시글 조회 API
+    @GetMapping(value = "/{id}")
+    public ResponseDTO<?> getPost(@PathVariable("id") Long id) {
+        return postService.getPost(id);
+    }
+
+    // 게시글 삭제 API
+    @DeleteMapping(value = "/{id}")
+    public ResponseDTO<?> deletePost(@PathVariable("id") Long id) {
+        return postService.deletePost(id);
+    }
+
+    // 댓글 등록 API
+    @PostMapping(value = "/comment")
+    public ResponseDTO<?> registerComment(@RequestBody PostDTO.RegisterCommentDTO registerCommentDTO) {
+        return postService.registerComment(registerCommentDTO);
+    }
 }
