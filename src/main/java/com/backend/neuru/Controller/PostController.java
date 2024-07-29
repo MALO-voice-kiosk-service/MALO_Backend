@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,8 +30,9 @@ public class PostController {
     @Autowired
     private final PostService postService;
 
-    @Transactional
-    public ResponseDTO<?> registerPost(PostDTO.RegisterPostDTO registerPostDTO) {
+    // 게시글 등록 API
+    @PostMapping(value = "/register")
+    public ResponseDTO<?> registerPost(@RequestBody PostDTO.RegisterPostDTO registerPostDTO) {
         return postService.registerPost(registerPostDTO);
     }
 
