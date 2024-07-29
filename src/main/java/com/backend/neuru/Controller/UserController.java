@@ -41,9 +41,9 @@ public class UserController {
     }
 
     // 로그아웃 API
-    @PostMapping(value = "/logout")
-    public ResponseDTO<?> logout(@RequestBody AuthDTO.logoutDTO logoutDTO) throws Exception {
-        return userService.logout(logoutDTO);
+    @PostMapping(value = "/logout/{id}")
+    public ResponseDTO<?> logout(@PathVariable("id") Long id) throws Exception {
+        return userService.logout(id);
     }
 
     // 회원정보 변경 API

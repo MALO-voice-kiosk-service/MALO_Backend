@@ -60,13 +60,13 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseDTO<?> logout(AuthDTO.logoutDTO logoutDTO){
-        Optional<UserEntity> userEntity = userRepository.findById(logoutDTO.getUserid());
+    public ResponseDTO<?> logout(Long id){
+        Optional<UserEntity> userEntity = userRepository.findById(id);
         if (userEntity.isEmpty()) {
             log.info("회원가입한 유저가 아님");
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }else {
-            return ResponseDTO.success("로그아웃 성공", logoutDTO.getUserid());
+            return ResponseDTO.success("로그아웃 성공", userEntity);
         }
     }
 
