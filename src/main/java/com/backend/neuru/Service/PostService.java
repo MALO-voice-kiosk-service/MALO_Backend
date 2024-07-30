@@ -28,20 +28,25 @@ public class PostService {
 
     @Transactional
     public ResponseDTO<?> registerPost(PostDTO.RegisterPostDTO registerPostDTO) {
-        postRepository.save(toEntity(registerPostDTO));
+        PostEntity postEntity = new PostEntity();
+        postEntity.setPost_content(registerPostDTO.getPost_content());
+        postEntity.setPost_title(registerPostDTO.getPost_title());
+        postEntity.setPost_tag(registerPostDTO.getPost_tag());
+        postEntity.setLocation(registerPostDTO.getLocation());
+        postRepository.save(postEntity);
         return ResponseDTO.success("게시글 등록 완료", registerPostDTO);
     }
 
-    private PostEntity toEntity(PostDTO.RegisterPostDTO registerPostDTO) {
-
-        return PostEntity.builder()
-                .post_title(registerPostDTO.getPost_title())
-                .post_tag(registerPostDTO.getPost_tag())
-                .post_content(registerPostDTO.getPost_content())
-                .location(registerPostDTO.getLocation())
-                .build();
-
-    }
+//    private PostEntity toEntity(PostDTO.RegisterPostDTO registerPostDTO) {
+//
+//        return PostEntity.builder()
+//                .post_title(registerPostDTO.getPost_title())
+//                .post_tag(registerPostDTO.getPost_tag())
+//                .post_content(registerPostDTO.getPost_content())
+//                .location(registerPostDTO.getLocation())
+//                .build();
+//
+//    }
 
     @Transactional
     public ResponseDTO<?> getAllPost() {
