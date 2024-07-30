@@ -20,5 +20,6 @@ public class LocationEntity {
     private String latitude;
     private String longitude;
     private int category;
+    private Boolean is_ad;
 
 }
