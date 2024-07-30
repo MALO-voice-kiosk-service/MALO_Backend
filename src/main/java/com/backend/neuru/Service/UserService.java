@@ -44,7 +44,6 @@ public class UserService {
                 .nickname(signupDTO.getNickname())
                 .name(signupDTO.getName())
                 .password(signupDTO.getPassword())
-                .is_user(signupDTO.getIs_user())
                 .build();
 
     }
