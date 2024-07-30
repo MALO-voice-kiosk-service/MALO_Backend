@@ -18,12 +18,12 @@ public class CommentEntity {
 
     private String comment_content;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private UserEntity user;
-
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private PostEntity post;
+
+    //    @ManyToOne
+    //    @JoinColumn(name = "user_id", nullable = false)
+    //    private UserEntity user;
 
 }

@@ -66,14 +66,25 @@ public class PostService {
         return ResponseDTO.success("댓글 등록 완료", comment);
     }
 
+//    @Transactional
+//    public ResponseDTO<?> fixComment(Long id, String commentContent) {
+//        Optional<PostEntity> postEntity = postRepository.findById(id);
+//        if(postEntity.isPresent()) {
+//            Optional<CommentEntity> commentEntity = commentRepository.findByPost(postEntity);
+//            commentEntity.get().setComment_content(commentContent);
+//            commentRepository.save(commentEntity.get());
+//            return ResponseDTO.success("댓글 수정 완료", commentEntity);
+//        } else{
+//            throw new CustomException(ErrorCode.POST_NOT_FOUND);
+//        }
+//    }
+
     @Transactional
-    public ResponseDTO<?> fixComment(Long id, String commentContent) {
+    public ResponseDTO<?> getComments(Long id){
         Optional<PostEntity> postEntity = postRepository.findById(id);
         if(postEntity.isPresent()) {
-            Optional<CommentEntity> commentEntity = commentRepository.findByPost(postEntity);
-            commentEntity.get().setComment_content(commentContent);
-            commentRepository.save(commentEntity.get());
-            return ResponseDTO.success("댓글 수정 완료", commentEntity);
+            List<CommentEntity> commentEntities = commentRepository.findByPost(postEntity);
+            return ResponseDTO.success("모든 댓글 조회 완료", commentEntities);
         } else{
             throw new CustomException(ErrorCode.POST_NOT_FOUND);
         }

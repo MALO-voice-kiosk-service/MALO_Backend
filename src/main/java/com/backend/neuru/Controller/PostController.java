@@ -58,8 +58,14 @@ public class PostController {
     }
 
     // 댓글 수정 API
-    @PutMapping(value = "/comment/{id}")
-    public ResponseDTO<?> fixComment(@PathVariable("id") Long id, @RequestBody String commentContent) {
-        return postService.fixComment(id, commentContent);
+//    @PutMapping(value = "/comment/{id}")
+//    public ResponseDTO<?> fixComment(@PathVariable("id") Long id, @RequestBody String commentContent) {
+//        return postService.fixComment(id, commentContent);
+//    }
+
+    // 댓글 조회 API
+    @GetMapping(value = "/comment/{id}")
+    public ResponseDTO<?> getComments(@PathVariable("id") Long id){
+        return postService.getComments(id);
     }
 }
