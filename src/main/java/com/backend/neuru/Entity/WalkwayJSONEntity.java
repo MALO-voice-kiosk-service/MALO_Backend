@@ -20,5 +20,6 @@ public class WalkwayJSONEntity {
     private String width;
     private String inclination;
     private String texture;
+    @Column(length = 100000)
     private String COT_CONTS_GEOM;
 }

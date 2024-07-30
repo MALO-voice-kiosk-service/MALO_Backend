@@ -18,6 +18,10 @@ public class WalkwayEntity {
     private String walkway_description;
     private int keyword;
     private int like_count;
-    private int city;
+    private Long city;
+
+    @OneToOne
+    @JoinColumn(name = "walkwayJSON_id", nullable = false)
+    private WalkwayJSONEntity walkwayJSON;
 
 }
