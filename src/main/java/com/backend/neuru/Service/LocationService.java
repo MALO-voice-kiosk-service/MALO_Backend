@@ -25,8 +25,8 @@ public class LocationService {
     public ResponseDTO<?> registerCity(CityDTO.cityRegisterDTO cityRegisterDTO) {
         CityEntity cityEntity = new CityEntity();
         cityEntity.setCityName(cityRegisterDTO.getCityName());
-        cityEntity.setCOT_COORD_X(cityRegisterDTO.getCOT_COORD_X());
-        cityEntity.setCOT_COORD_Y(cityRegisterDTO.getCOT_COORD_Y());
+        cityEntity.setCOT_COORD_Y(cityRegisterDTO.getY());
+        cityEntity.setCOT_COORD_X(cityRegisterDTO.getX());
         cityRepository.save(cityEntity);
         return ResponseDTO.success("도시(구) 등록 완료", cityEntity);
     }

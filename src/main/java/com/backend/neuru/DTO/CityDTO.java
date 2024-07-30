@@ -14,8 +14,7 @@ public class CityDTO {
     @NoArgsConstructor
     public static class cityRegisterDTO{
         private String cityName;
-        private String COT_COORD_X;
-        private String COT_COORD_Y;
-        private int cityNum;
+        private String x;
+        private String y;
     }
 }
