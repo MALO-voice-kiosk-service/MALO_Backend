@@ -25,12 +25,24 @@ public class LikeReviewService {
     private final WalkwayRepository walkwayRepository;
 
     @Transactional
-    public ResponseDTO<?> registerReview(String reviewContents) {
+    public ResponseDTO<?> registerReview(Long id, String reviewContents) {
+        WalkwayEntity walkway = walkwayRepository.findById(id).get();
         ReviewEntity reviewEntity = new ReviewEntity();
         reviewEntity.setReview_content(reviewContents);
+        reviewEntity.setWalkway(walkway);
         reviewRepository.save(reviewEntity);
         return ResponseDTO.success("산책로 리뷰 등록 완료", reviewEntity);
     }
+
+    @Transactional
+    public ResponseDTO<?> fixReview(Long id, String reviewContents) {
+        WalkwayEntity walkway = walkwayRepository.findById(id).get();
+        Optional<ReviewEntity> reviewEntity = reviewRepository.findByWalkway(walkway);
+        reviewEntity.ifPresent(reviewEntity1 -> reviewEntity1.setReview_content(reviewContents));
+        reviewRepository.save(reviewEntity.get());
+        return ResponseDTO.success("산책로 리뷰 수정 완료", reviewEntity);
+    }
+
 
     @Transactional
     public ResponseDTO<?> registerLike(Long id) {

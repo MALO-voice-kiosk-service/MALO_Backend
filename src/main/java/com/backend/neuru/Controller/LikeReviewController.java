@@ -20,9 +20,16 @@ public class LikeReviewController {
     @Autowired
     private final LikeReviewService likeReviewService;
 
-    @PostMapping(value = "/review")
-    public ResponseDTO<?> registerReview(@RequestBody String reviewContents) throws Exception {
-        return likeReviewService.registerReview(reviewContents);
+    // 산책로 리뷰 등록 API
+    @PostMapping(value = "/review/{id}")
+    public ResponseDTO<?> registerReview(@PathVariable("id") Long id, @RequestBody String reviewContents) throws Exception {
+        return likeReviewService.registerReview(id, reviewContents);
+    }
+
+    // 산책로 리뷰 수정 API
+    @PutMapping(value = "/review/{id}")
+    public ResponseDTO<?> fixReview(@PathVariable("id") Long id, @RequestBody String commentContent) {
+        return likeReviewService.fixReview(id, commentContent);
     }
 
     @PostMapping(value = "/like/{id}")
