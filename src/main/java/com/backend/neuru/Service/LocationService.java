@@ -55,4 +55,6 @@ public class LocationService {
         List<LocationEntity> locationEntities = locationRepository.findByCategory(category);
         return ResponseDTO.success("카테고리에 해당하는 장소 조회 완료", locationEntities);
     }
+
+    @Transactional
 }
