@@ -49,22 +49,22 @@ public class LocationController {
     }
 
     @PostMapping("/fetchToiletData")
-    public String fetchToiletData(@RequestParam Long walk_id)
+    public ResponseDTO<?>  fetchToiletData(@RequestParam Long walk_id)
     {
         try{
             return locationService.fetchToiletAndSave(walk_id);
         } catch (IOException e) {
-            return "Failed to fetch data: " + e.getMessage();
+            return ResponseDTO.error("서울맵에 화장실 리스트 가져와서 DB 저장 실패");
         }
     }
 
     @PostMapping("/fetchChargeData")
-    public String fetchChargeData(@RequestParam Long walk_id)
+    public ResponseDTO<?> fetchChargeData(@RequestParam Long walk_id)
     {
         try{
             return locationService.fetchChargeAndSave(walk_id);
         } catch (IOException e) {
-            return "Failed to fetch data: " + e.getMessage();
+            return ResponseDTO.error("서울맵에 충전기 리스트 가져와서 DB 저장 실패");
         }
     }
 }

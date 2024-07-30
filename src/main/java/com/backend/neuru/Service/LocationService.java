@@ -67,7 +67,7 @@ public class LocationService {
     }
 
     @Transactional
-    public String fetchToiletAndSave(Long walkway_id) throws IOException {
+    public ResponseDTO<?> fetchToiletAndSave(Long walkway_id) throws IOException {
         Optional<WalkwayJSONEntity> walkwayJSONEntity = walkwayJSONRepository.findById(walkway_id);
         WalkwayJSONEntity jsonEntity = walkwayJSONEntity.get();
         String geomRaw = jsonEntity.getCOT_CONTS_GEOM();
@@ -106,11 +106,11 @@ public class LocationService {
 
         }
 
-        return response;
+        return ResponseDTO.success("서울맵에 화장실 리스트 가져와서 DB 저장 성공", "");
     }
 
     @Transactional
-    public String fetchChargeAndSave(Long walkway_id) throws IOException {
+    public ResponseDTO<?> fetchChargeAndSave(Long walkway_id) throws IOException {
         Optional<WalkwayJSONEntity> walkwayJSONEntity = walkwayJSONRepository.findById(walkway_id);
         WalkwayJSONEntity jsonEntity = walkwayJSONEntity.get();
         String geomRaw = jsonEntity.getCOT_CONTS_GEOM();
@@ -149,6 +149,6 @@ public class LocationService {
 
         }
 
-        return response;
+        return ResponseDTO.success("서울맵에 충전기 리스트 가져와서 DB 저장 성공", "");
     }
 }
