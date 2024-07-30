@@ -1,14 +1,11 @@
 package com.backend.neuru.Service;
 
-import com.backend.neuru.DTO.AuthDTO;
 import com.backend.neuru.DTO.ResponseDTO;
 import com.backend.neuru.Entity.LikeEntity;
-import com.backend.neuru.Entity.PostEntity;
 import com.backend.neuru.Entity.ReviewEntity;
 import com.backend.neuru.Entity.WalkwayEntity;
 import com.backend.neuru.Repository.LikeRepository;
 import com.backend.neuru.Repository.ReviewRepository;
-import com.backend.neuru.Repository.UserRepository;
 import com.backend.neuru.Repository.WalkwayRepository;
 import com.backend.neuru.exception.CustomException;
 import com.backend.neuru.exception.ErrorCode;
