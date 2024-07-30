@@ -21,9 +21,9 @@ public class PostEntity {
     private String location;
 //    private String post_img;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private UserEntity user;
 
 
 }

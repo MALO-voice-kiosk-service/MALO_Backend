@@ -17,9 +17,9 @@ public class ReviewEntity {
 
     private String review_content;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "walkway_id", nullable = false)
