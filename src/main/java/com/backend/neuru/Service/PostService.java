@@ -15,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -84,7 +86,18 @@ public class PostService {
         Optional<PostEntity> postEntity = postRepository.findById(id);
         if(postEntity.isPresent()) {
             List<CommentEntity> commentEntities = commentRepository.findByPost(postEntity);
-            return ResponseDTO.success("모든 댓글 조회 완료", commentEntities);
+
+            List<PostDTO.commentResponseDTO> commentResponseDTOS = commentEntities.stream()
+                    .map(commentEntity -> {
+                        PostDTO.commentResponseDTO dto = new PostDTO.commentResponseDTO();
+                        dto.setComment_id(commentEntity.getId());
+                        dto.setComment_content(commentEntity.getComment_content());
+                        dto.setPost_id(commentEntity.getPost().getId());
+                        return dto;
+                    })
+                    .collect(Collectors.toList());
+
+            return ResponseDTO.success("모든 댓글 조회 완료", commentResponseDTOS);
         } else{
             throw new CustomException(ErrorCode.POST_NOT_FOUND);
         }

@@ -19,4 +19,13 @@ public class PostDTO {
         private String location;
 //        private String post_img;
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class commentResponseDTO{
+        private Long comment_id;
+        private Long post_id;
+        private String comment_content;
+    }
 }
