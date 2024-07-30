@@ -2,6 +2,7 @@ package com.backend.neuru.Controller;
 
 
 import com.backend.neuru.DTO.CityDTO;
+import com.backend.neuru.DTO.LocationDTO;
 import com.backend.neuru.DTO.PostDTO;
 import com.backend.neuru.DTO.ResponseDTO;
 import com.backend.neuru.Service.LocationService;
@@ -31,4 +32,17 @@ public class LocationController {
     public ResponseDTO<?> getCity() {
         return locationService.getCities();
     }
+
+    // 장소 등록 API
+    @PostMapping(value = "")
+    public ResponseDTO<?> registerLocation(@RequestBody LocationDTO.locationRegisterDTO locationRegisterDTO) {
+        return locationService.registerLocation(locationRegisterDTO);
+    }
+
+    // 장소 조회 API
+    @GetMapping(value = "")
+    public ResponseDTO<?> getLocation(@RequestParam int category) {
+        return locationService.getLocations(category);
+    }
+
 }
