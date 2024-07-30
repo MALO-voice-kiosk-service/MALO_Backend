@@ -1,6 +1,5 @@
 package com.backend.neuru.Entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,15 +9,14 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="location")
-public class LocationEntity {
+@Table(name="city")
+public class CityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String cityName;
     private String COT_COORD_X;
     private String COT_COORD_Y;
-    private int category; // 0:화장실, 1:충전기, 2:영화관
-    private Boolean is_ad;
-
+    private int cityNum;
 }

@@ -55,7 +55,11 @@ public class UserService {
             log.info("회원가입한 유저가 아님");
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }else {
-            return ResponseDTO.success("로그인 성공", longinDTO.getUserid());
+            if(userEntity.get().getPassword().equals(longinDTO.getPassword())){
+                return ResponseDTO.success("로그인 성공", longinDTO.getUserid());
+            } else{
+                throw new CustomException(ErrorCode.PASSWORD_IS_NOT_CORRECT);
+            }
         }
     }
 
