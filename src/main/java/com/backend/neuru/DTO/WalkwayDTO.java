@@ -19,5 +19,13 @@ public class WalkwayDTO {
         private String texture;
         private String COT_CONTS_GEOM;
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class walkwayFetchDTO{
+        private Long cityID;
+        private int keyword;
+    }
 }
 

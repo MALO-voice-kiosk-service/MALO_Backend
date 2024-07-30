@@ -18,7 +18,7 @@ public class WalkwayEntity {
     private String walkway_description;
     private int keyword;
     private int like_count;
-    private Long city;
+    private Long cityID;
 
     @OneToOne
     @JoinColumn(name = "walkwayJSON_id", nullable = false)

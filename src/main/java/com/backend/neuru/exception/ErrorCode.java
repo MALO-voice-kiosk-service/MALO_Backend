@@ -15,6 +15,7 @@ public enum ErrorCode {
     WALKWAY_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "WALKWAY_LIKE_NOT_FOUND", "해당 산책로의 좋아요가 존재하지 않습니다."),
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST_NOT_FOUND", "해당 게시글이 존재하지 않습니다."),
     WALKWAY_JSON_NOT_FOUND(HttpStatus.NOT_FOUND, "WALKWAY_JSON_NOT_FOUND", "해당 walkway.json not found."),
+    CITY_NOT_FOUND(HttpStatus.NOT_FOUND, "CITY_NOT_FOUND", "해당 city 정보다 DB에 존재하지 않습니다"),
     ;
     private final HttpStatus httpStatus;
     private final String errorCode;
