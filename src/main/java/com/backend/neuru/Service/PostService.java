@@ -65,7 +65,12 @@ public class PostService {
         Optional<PostEntity> postEntity = postRepository.findById(id);
         comment.setPost(postEntity.get());
         commentRepository.save(comment);
-        return ResponseDTO.success("댓글 등록 완료", comment);
+
+        PostDTO.commentResponseDTO commentResponseDTO = new PostDTO.commentResponseDTO();
+        commentResponseDTO.setComment_id(comment.getId());
+        commentResponseDTO.setComment_content(comment.getComment_content());
+        commentResponseDTO.setPost_id(comment.getPost().getId());
+        return ResponseDTO.success("댓글 등록 완료", commentResponseDTO);
     }
 
 //    @Transactional
