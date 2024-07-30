@@ -16,10 +16,6 @@ public class MyWalkwayEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
-
-    @ManyToOne
     @JoinColumn(name = "walkway_id", nullable = false)
     private WalkwayEntity walkway;
 }

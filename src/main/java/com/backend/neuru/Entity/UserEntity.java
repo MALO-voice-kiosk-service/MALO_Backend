@@ -19,5 +19,4 @@ public class UserEntity {
     private String name;
     private String nickname;
     private String password;
-    private int is_user;
 }

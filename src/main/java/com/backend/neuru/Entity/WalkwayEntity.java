@@ -15,8 +15,9 @@ public class WalkwayEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String walkway_title;
     private String walkway_description;
-
+    private int keyword;
+    private int like_count;
+    private int city;
 
 }

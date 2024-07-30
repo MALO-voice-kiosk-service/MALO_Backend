@@ -19,6 +19,6 @@ public class LocationEntity {
     private String location_name;
     private String latitude;
     private String longitude;
-    private int keyword; // keyword도 키워드에 번호 지정해두고, DB에는 int만 저장
+    private int category;
 
 }
