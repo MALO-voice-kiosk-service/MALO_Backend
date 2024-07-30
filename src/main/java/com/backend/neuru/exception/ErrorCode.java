@@ -13,6 +13,7 @@ public enum ErrorCode {
     DUPLICATE_FIX_SEAT(HttpStatus.CONFLICT,"DUPLICATE-FIXSEAT","고정 좌석이 중복됩니다."),
     DUPLICATE_USER_NAME(HttpStatus.FORBIDDEN, "DUPLICATE-USERNAME","같은 이름이 존재합니다."),
     WALKWAY_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "WALKWAY_LIKE_NOT_FOUND", "해당 산책로의 좋아요가 존재하지 않습니다."),
+    POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST_NOT_FOUND", "해당 게시글이 존재하지 않습니다.")
     ;
     private final HttpStatus httpStatus;
     private final String errorCode;

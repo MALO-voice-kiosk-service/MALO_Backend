@@ -8,6 +8,8 @@ import com.backend.neuru.Entity.PostEntity;
 import com.backend.neuru.Entity.UserEntity;
 import com.backend.neuru.Repository.CommentRepository;
 import com.backend.neuru.Repository.PostRepository;
+import com.backend.neuru.exception.CustomException;
+import com.backend.neuru.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,5 +64,18 @@ public class PostService {
         comment.setPost(postEntity.get());
         commentRepository.save(comment);
         return ResponseDTO.success("댓글 등록 완료", comment);
+    }
+
+    @Transactional
+    public ResponseDTO<?> fixComment(Long id, String commentContent) {
+        Optional<PostEntity> postEntity = postRepository.findById(id);
+        if(postEntity.isPresent()) {
+            Optional<CommentEntity> commentEntity = commentRepository.findByPost(postEntity);
+            commentEntity.get().setComment_content(commentContent);
+            commentRepository.save(commentEntity.get());
+            return ResponseDTO.success("댓글 수정 완료", commentEntity);
+        } else{
+            throw new CustomException(ErrorCode.POST_NOT_FOUND);
+        }
     }
 }

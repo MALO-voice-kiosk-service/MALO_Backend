@@ -56,4 +56,10 @@ public class PostController {
     public ResponseDTO<?> registerComment(@PathVariable("id") Long id, @RequestBody String commentContent) {
         return postService.registerComment(id, commentContent);
     }
+
+    // 댓글 수정 API
+    @PutMapping(value = "/comment/{id}")
+    public ResponseDTO<?> fixComment(@PathVariable("id") Long id, @RequestBody String commentContent) {
+        return postService.fixComment(id, commentContent);
+    }
 }
