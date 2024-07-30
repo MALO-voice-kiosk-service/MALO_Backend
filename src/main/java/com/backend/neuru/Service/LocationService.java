@@ -25,7 +25,6 @@ public class LocationService {
     public ResponseDTO<?> registerCity(CityDTO.cityRegisterDTO cityRegisterDTO) {
         CityEntity cityEntity = new CityEntity();
         cityEntity.setCityName(cityRegisterDTO.getCityName());
-        cityEntity.setCityNum(cityRegisterDTO.getCityNum());
         cityEntity.setCOT_COORD_X(cityRegisterDTO.getCOT_COORD_X());
         cityEntity.setCOT_COORD_Y(cityRegisterDTO.getCOT_COORD_Y());
         cityRepository.save(cityEntity);

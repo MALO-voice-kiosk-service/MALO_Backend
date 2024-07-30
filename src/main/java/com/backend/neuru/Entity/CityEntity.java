@@ -18,5 +18,5 @@ public class CityEntity {
     private String cityName;
     private String COT_COORD_X;
     private String COT_COORD_Y;
-    private int cityNum;
+
 }
