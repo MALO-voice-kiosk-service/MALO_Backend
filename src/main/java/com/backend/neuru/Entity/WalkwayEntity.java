@@ -16,7 +16,7 @@ public class WalkwayEntity {
     private Long id;
 
     private String walkway_description;
-    private int keyword;
+    private int keyword; // 0:혼자, 1:반려견, 2:동반자
     private int like_count;
     private Long cityID;
 
