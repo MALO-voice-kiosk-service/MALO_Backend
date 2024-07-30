@@ -28,7 +28,7 @@ public class PostController {
     private final PostService postService;
 
     // 게시글 등록 API
-    @PostMapping(value = "/register")
+    @PostMapping(value = "")
     public ResponseDTO<?> registerPost(@RequestBody PostDTO.RegisterPostDTO registerPostDTO) {
         return postService.registerPost(registerPostDTO);
     }
@@ -52,8 +52,8 @@ public class PostController {
     }
 
     // 댓글 등록 API
-    @PostMapping(value = "/comment")
-    public ResponseDTO<?> registerComment(@RequestBody PostDTO.RegisterCommentDTO registerCommentDTO) {
-        return postService.registerComment(registerCommentDTO);
+    @PostMapping(value = "/comment/{id}")
+    public ResponseDTO<?> registerComment(@PathVariable("id") Long id, @RequestBody String commentContent) {
+        return postService.registerComment(id, commentContent);
     }
 }

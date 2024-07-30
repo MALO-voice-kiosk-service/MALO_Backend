@@ -19,11 +19,4 @@ public class PostDTO {
         private String location;
 //        private String post_img;
     }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public static class RegisterCommentDTO{
-        private String comment;
-    }
 }

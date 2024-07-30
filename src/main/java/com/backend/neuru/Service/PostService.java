@@ -8,9 +8,6 @@ import com.backend.neuru.Entity.PostEntity;
 import com.backend.neuru.Entity.UserEntity;
 import com.backend.neuru.Repository.CommentRepository;
 import com.backend.neuru.Repository.PostRepository;
-import com.backend.neuru.Repository.UserRepository;
-import com.backend.neuru.exception.CustomException;
-import com.backend.neuru.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,17 +34,6 @@ public class PostService {
         return ResponseDTO.success("게시글 등록 완료", registerPostDTO);
     }
 
-//    private PostEntity toEntity(PostDTO.RegisterPostDTO registerPostDTO) {
-//
-//        return PostEntity.builder()
-//                .post_title(registerPostDTO.getPost_title())
-//                .post_tag(registerPostDTO.getPost_tag())
-//                .post_content(registerPostDTO.getPost_content())
-//                .location(registerPostDTO.getLocation())
-//                .build();
-//
-//    }
-
     @Transactional
     public ResponseDTO<?> getAllPost() {
         List<PostEntity> postEntities = postRepository.findAll();
@@ -68,11 +54,12 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseDTO<?> registerComment(PostDTO.RegisterCommentDTO registerCommentDTO) {
+    public ResponseDTO<?> registerComment(Long id, String commentContent) {
         // DTO를 엔티티로 변환
         CommentEntity comment = new CommentEntity();
-        comment.setComment_content(registerCommentDTO.getComment());
-
+        comment.setComment_content(commentContent);
+        Optional<PostEntity> postEntity = postRepository.findById(id);
+        comment.setPost(postEntity.get());
         commentRepository.save(comment);
         return ResponseDTO.success("댓글 등록 완료", comment);
     }
