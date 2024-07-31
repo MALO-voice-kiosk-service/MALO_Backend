@@ -24,7 +24,7 @@ public class WalkwayController {
     @Autowired
     private final WalkwayService walkwayService;
 
-    @GetMapping(value = "/fetchWalkwayData")
+    @PostMapping(value = "/fetchWalkwayData")
     public ResponseDTO<?> fetchWalkwayData(@RequestBody WalkwayDTO.walkwayFetchDTO walkwayFetchDTO) {
         try {
             return walkwayService.fetchDataAndSave(walkwayFetchDTO);
