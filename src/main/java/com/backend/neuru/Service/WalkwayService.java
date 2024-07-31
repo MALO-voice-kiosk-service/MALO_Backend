@@ -132,7 +132,7 @@ public class WalkwayService {
     }
 
     @Transactional
-    public String getSummary(Long walkway_id) throws IOException
+    public ResponseDTO<?> getSummary(Long walkway_id) throws IOException
     {
         Optional<WalkwayEntity> walkwayEntity0 = walkwayRepository.findById(walkway_id);
         WalkwayEntity walkwayEntity = walkwayEntity0.get();
@@ -194,7 +194,7 @@ public class WalkwayService {
             System.out.println("Response Body: " + e.getResponseBodyAsString());
         }
 
-        return res;
+        return ResponseDTO.success("Naver Clova Studio 산책로 설명 생성 및 산책로 설명 DB 저장 완료", "");
     }
 
 }

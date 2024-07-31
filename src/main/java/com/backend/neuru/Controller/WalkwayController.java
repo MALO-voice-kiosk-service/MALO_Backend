@@ -31,11 +31,11 @@ public class WalkwayController {
     }
 
     @PostMapping(value = "/summaryWalkway/{id}")
-    public String summaryWalkway(@PathVariable("id") Long id) {
+    public ResponseDTO<?> summaryWalkway(@PathVariable("id") Long id) {
         try {
             return walkwayService.getSummary(id);
         }catch (IOException e){
-            return "네이버 클로바에 요약 요청 실패";
+            return ResponseDTO.error("네이버 클로바에 요약 요청 실패");
         }
 
     }
