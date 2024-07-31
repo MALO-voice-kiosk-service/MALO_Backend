@@ -22,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -197,4 +199,46 @@ public class WalkwayService {
         return ResponseDTO.success("Naver Clova Studio 산책로 설명 생성 및 산책로 설명 DB 저장 완료", "");
     }
 
+    @Transactional
+    public List<WalkwayEntity> getWalkwayList(Long city_id, int keyword) throws IOException
+    {
+        List<WalkwayEntity> walkwayEntityList = walkwayRepository.findAllByCityIDAndKeyword(city_id, keyword);
+
+        List<WalkwayEntity> returnList = new ArrayList<>();
+        int cnt = 0;
+        for(WalkwayEntity walkwayEntity : walkwayEntityList)
+        {
+            WalkwayJSONEntity jsonEntity = walkwayEntity.getWalkwayJSON();
+
+            String incline = jsonEntity.getInclination();
+            String width = jsonEntity.getWidth();
+
+            // 추천 리스트 10개 넘으면 그만
+            if(cnt > 10)
+                break;
+
+            if(keyword == 0) // 혼자
+            {
+                if(incline.contains("평지")){
+                    returnList.add(walkwayEntity);
+                    cnt++;
+                }
+            }
+            else if(keyword == 1) // 반려견
+            {
+                if(width.contains("1.8m이상"))
+                {
+                    returnList.add(walkwayEntity);
+                    cnt++;
+                }
+            }
+            else // 동반자
+            {
+                returnList.add(walkwayEntity);
+                cnt++;
+            }
+
+        }
+        return walkwayEntityList;
+    }
 }

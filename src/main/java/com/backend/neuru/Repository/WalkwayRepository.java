@@ -6,8 +6,10 @@ import com.backend.neuru.Entity.WalkwayEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface WalkwayRepository extends JpaRepository<WalkwayEntity, Long> {
+    List<WalkwayEntity> findAllByCityIDAndKeyword(Long cityID, int keyword);
 }

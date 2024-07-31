@@ -2,6 +2,7 @@ package com.backend.neuru.Controller;
 
 import com.backend.neuru.DTO.ResponseDTO;
 import com.backend.neuru.DTO.WalkwayDTO;
+import com.backend.neuru.Entity.WalkwayEntity;
 import com.backend.neuru.Service.WalkwayService;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -40,6 +43,16 @@ public class WalkwayController {
 
     }
 
+    @PostMapping(value = "/getWalkwayList/{cityID}/{keyword}")
+    public List<WalkwayEntity> getWalkwayList(@PathVariable("cityID") Long cityID, @PathVariable("keyword") int keyword) {
+        try{
+            return walkwayService.getWalkwayList(cityID, keyword);
+        }catch (IOException e){
+            List<WalkwayEntity> empty = new ArrayList<>();
+            return empty;
+        }
+    }
+}
+
 //    @GetMapping(value = "/{id}")
 //    public ResponseDTO<?> getWalkwayInfo(@PathVariable("id") Long id) {}
-}
