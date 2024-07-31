@@ -7,7 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ReviewDTO {
+public class LikeReviewDTO {
     @Getter
     @Setter
     @NoArgsConstructor
@@ -15,4 +15,13 @@ public class ReviewDTO {
         private Long review_id;
         private String review_content;
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class likeResponseDTO{
+        private Long walkway_id;
+        private int like_count;
+    }
+
 }

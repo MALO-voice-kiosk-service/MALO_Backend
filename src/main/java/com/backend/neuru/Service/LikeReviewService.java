@@ -1,16 +1,12 @@
 package com.backend.neuru.Service;
 
-import com.backend.neuru.DTO.PostDTO;
 import com.backend.neuru.DTO.ResponseDTO;
-import com.backend.neuru.DTO.ReviewDTO;
-import com.backend.neuru.Entity.LikeEntity;
+import com.backend.neuru.DTO.LikeReviewDTO;
 import com.backend.neuru.Entity.ReviewEntity;
 import com.backend.neuru.Entity.WalkwayEntity;
 import com.backend.neuru.Repository.LikeRepository;
 import com.backend.neuru.Repository.ReviewRepository;
 import com.backend.neuru.Repository.WalkwayRepository;
-import com.backend.neuru.exception.CustomException;
-import com.backend.neuru.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +31,7 @@ public class LikeReviewService {
         reviewEntity.setWalkway(walkway);
         reviewRepository.save(reviewEntity);
 
-        ReviewDTO.reviewResponseDTO reviewDTO = new ReviewDTO.reviewResponseDTO();
+        LikeReviewDTO.reviewResponseDTO reviewDTO = new LikeReviewDTO.reviewResponseDTO();
         reviewDTO.setReview_id(reviewEntity.getId());
         reviewDTO.setReview_content(reviewEntity.getReview_content());
 
@@ -61,9 +57,9 @@ public class LikeReviewService {
         // WalkwayEntity를 기준으로 ReviewEntity들을 조회합니다.
         List<ReviewEntity> reviewEntityList = reviewRepository.findByWalkway(walkway);
 
-        List<ReviewDTO.reviewResponseDTO> reviewResponseDTOS = reviewEntityList.stream()
+        List<LikeReviewDTO.reviewResponseDTO> reviewResponseDTOS = reviewEntityList.stream()
                 .map(reviewEntity -> {
-                    ReviewDTO.reviewResponseDTO reviewDTO = new ReviewDTO.reviewResponseDTO();
+                    LikeReviewDTO.reviewResponseDTO reviewDTO = new LikeReviewDTO.reviewResponseDTO();
                     reviewDTO.setReview_content(reviewEntity.getReview_content());
                     reviewDTO.setReview_id(reviewEntity.getId());
                     return reviewDTO;
@@ -81,7 +77,12 @@ public class LikeReviewService {
         likeCount = likeCount + 1;
         walkway.setLike_count(likeCount);
         walkwayRepository.save(walkway);
-        return ResponseDTO.success("산책로 좋아요 수 증가 완료", walkway);
+
+        LikeReviewDTO.likeResponseDTO likeResponseDTO = new LikeReviewDTO.likeResponseDTO();
+        likeResponseDTO.setWalkway_id(walkway.getId());
+        likeResponseDTO.setLike_count(walkway.getLike_count());
+
+        return ResponseDTO.success("산책로 좋아요 수 증가 완료", likeResponseDTO);
     }
 
     @Transactional
@@ -92,7 +93,12 @@ public class LikeReviewService {
             likeCount = likeCount - 1;
             walkway.setLike_count(likeCount);
             walkwayRepository.save(walkway);
-            return ResponseDTO.success("산책로 좋아요 수 감소 완료", walkway);
+
+            LikeReviewDTO.likeResponseDTO likeResponseDTO = new LikeReviewDTO.likeResponseDTO();
+            likeResponseDTO.setWalkway_id(walkway.getId());
+            likeResponseDTO.setLike_count(walkway.getLike_count());
+
+            return ResponseDTO.success("산책로 좋아요 수 감소 완료", likeResponseDTO);
         } else{
             return ResponseDTO.error("기존의 좋아요 수가 0개이므로 감소할 수 없습니다.");
         }
