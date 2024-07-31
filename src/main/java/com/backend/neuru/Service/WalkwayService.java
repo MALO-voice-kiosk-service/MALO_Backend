@@ -201,6 +201,7 @@ public class WalkwayService {
 
             walkwayEntity.setWalkway_description(text);
             walkwayRepository.save(walkwayEntity);
+            log.info("Naver Clova Studio에 산책로 설명 요청 및 저장 성공");
 
         } catch (HttpClientErrorException e) {
             System.out.println("HTTP Error: " + e.getStatusCode());
@@ -254,6 +255,8 @@ public class WalkwayService {
     @Transactional
     public ResponseDTO<?> getOneWalkway(Long walkway_id) throws IOException{
         Optional<WalkwayEntity> walkwayEntity = walkwayRepository.findById(walkway_id);
+        getSummary(walkway_id);
+        log.info("산책로 상세 정보 조회 함수 내에서 Naver Clova Studio에 산책로 설명 요청 성공");
 
         WalkwayDTO.OneWalkwayResponseDTO responseDTO = new WalkwayDTO.OneWalkwayResponseDTO();
         responseDTO.setWalkway_description(walkwayEntity.get().getWalkway_description());
