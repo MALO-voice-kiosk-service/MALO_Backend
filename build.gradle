@@ -36,6 +36,8 @@ dependencies {
 	// mysql
 	runtimeOnly 'mysql:mysql-connector-java'
 	implementation 'mysql:mysql-connector-java:8.0.32'
+	// validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {

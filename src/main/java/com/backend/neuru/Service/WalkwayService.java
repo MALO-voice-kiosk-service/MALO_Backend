@@ -125,7 +125,17 @@ public class WalkwayService {
                     }
                 } else continue;
             }
-            return ResponseDTO.success("서울맵에 산책로 리스트 가져와서 DB 저장 성공", "");
+            List<WalkwayEntity> filteredWalkwayList = getWalkwayList(walkwayFetchDTO.getCityID(), walkwayFetchDTO.getKeyword());
+
+            // filtering된 산책로 리스트 DTO로 전달
+            List<WalkwayDTO.filteredWalkwayResponseDTO> filteredWalkwayResponseDTOList = new ArrayList<>();
+            for (WalkwayEntity walkwayEntity : filteredWalkwayList) {
+                WalkwayDTO.filteredWalkwayResponseDTO responseDTO = new WalkwayDTO.filteredWalkwayResponseDTO();
+                responseDTO.setWalkway_id(walkwayEntity.getId());
+                responseDTO.setCOT_CONTS_GEOM(walkwayEntity.getWalkwayJSON().getCOT_CONTS_GEOM());
+                filteredWalkwayResponseDTOList.add(responseDTO);
+            }
+            return ResponseDTO.success("서울맵에 산책로 리스트 가져와서 DB 저장 성공", filteredWalkwayResponseDTOList);
 
         } else{
             throw new CustomException(ErrorCode.CITY_NOT_FOUND);
@@ -239,6 +249,6 @@ public class WalkwayService {
             }
 
         }
-        return walkwayEntityList;
+        return returnList;
     }
 }
