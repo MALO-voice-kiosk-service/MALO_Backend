@@ -53,78 +53,80 @@ public class WalkwayService {
             for (JsonNode node : bodyArray) {
                 JsonNode standard = node.get("COT_VALUE_01");
                 // 보행로 데이터면 상세정보 정보 날리기
-                if (standard != null) {
-                    String walkway_id = node.get("COT_CONTS_ID").asText();
-                    String url2 = String.format("https://map.seoul.go.kr/openapi/v5/KEY80_d205ac47ac50400588ae474e5c0f3e2b/public/themes/contents/detail?theme_id=11102801&conts_id=%s", walkway_id);
-                    response2 = restTemplate.getForObject(url2, String.class);
+                if(standard==null || standard.isNull()){
+                    continue;
+                }
+                String walkway_id = node.get("COT_CONTS_ID").asText();
+                String url2 = String.format("https://map.seoul.go.kr/openapi/v5/KEY80_d205ac47ac50400588ae474e5c0f3e2b/public/themes/contents/detail?theme_id=11102801&conts_id=%s", walkway_id);
+                response2 = restTemplate.getForObject(url2, String.class);
 
-                    JsonNode wayNode = objectMapper.readTree(response2);
-                    JsonNode bodyArray2 = wayNode.path("body");
-                    JsonNode realNode = bodyArray2.get(0);
+                JsonNode wayNode = objectMapper.readTree(response2);
+                JsonNode bodyArray2 = wayNode.path("body");
+                JsonNode realNode = bodyArray2.get(0);
 
-                    WalkwayDTO.WalkwayResponseDTO dto = new WalkwayDTO.WalkwayResponseDTO();
+                WalkwayDTO.WalkwayResponseDTO dto = new WalkwayDTO.WalkwayResponseDTO();
 
-                    JsonNode guNode = realNode.get("COT_GU_NAME");
-                    if (guNode != null)
-                        dto.setCity_name(guNode.asText());
-                    else
-                        dto.setCity_name("");
+                JsonNode guNode = realNode.get("COT_GU_NAME");
+                if (guNode != null)
+                    dto.setCity_name(guNode.asText());
+                else
+                    dto.setCity_name("");
 
-                    dto.setQuality_description(standard.asText());
+                dto.setQuality_description(standard.asText());
 
-                    JsonNode inclineNode = realNode.get("COT_VALUE_04");
-                    if (inclineNode != null)
-                        dto.setInclination(inclineNode.asText());
-                    else
-                        dto.setInclination("");
+                JsonNode inclineNode = realNode.get("COT_VALUE_04");
+                if (inclineNode != null)
+                    dto.setInclination(inclineNode.asText());
+                else
+                    dto.setInclination("");
 
-                    JsonNode widthNode = realNode.get("COT_VALUE_02");
-                    if (widthNode != null)
-                        dto.setWidth(widthNode.asText());
-                    else
-                        dto.setWidth("");
+                JsonNode widthNode = realNode.get("COT_VALUE_02");
+                if (widthNode != null)
+                    dto.setWidth(widthNode.asText());
+                else
+                    dto.setWidth("");
 
-                    JsonNode textureNode = realNode.get("COT_VALUE_05");
-                    if (textureNode != null)
-                        dto.setTexture(textureNode.asText());
-                    else
-                        dto.setTexture("");
+                JsonNode textureNode = realNode.get("COT_VALUE_05");
+                if (textureNode != null)
+                    dto.setTexture(textureNode.asText());
+                else
+                    dto.setTexture("");
 
-                    JsonNode geomNode = realNode.get("COT_CONTS_GEOM");
-                    if (geomNode != null)
-                        dto.setCOT_CONTS_GEOM(geomNode.asText());
-                    else
-                        dto.setCOT_CONTS_GEOM("");
+                JsonNode geomNode = realNode.get("COT_CONTS_GEOM");
+                if (geomNode != null)
+                    dto.setCOT_CONTS_GEOM(geomNode.asText());
+                else
+                    dto.setCOT_CONTS_GEOM("");
 
-                    response2 = guNode.asText() + inclineNode.asText() + widthNode.asText() + textureNode.asText() + geomNode.asText();
+                response2 = guNode.asText() + inclineNode.asText() + widthNode.asText() + textureNode.asText() + geomNode.asText();
 
-                    // 구 중심좌표 입력 -> 산책로 리스트 받음 -> 산책로 JSON 테이블에 각각 생성
-                    WalkwayJSONEntity entity = new WalkwayJSONEntity();
-                    entity.setCity_name(dto.getCity_name());
-                    entity.setInclination(dto.getInclination());
-                    entity.setQuality_description(dto.getQuality_description());
-                    entity.setCOT_CONTS_GEOM(dto.getCOT_CONTS_GEOM());
-                    entity.setTexture(dto.getTexture());
-                    entity.setWidth(dto.getWidth());
+                // 구 중심좌표 입력 -> 산책로 리스트 받음 -> 산책로 JSON 테이블에 각각 생성
+                WalkwayJSONEntity entity = new WalkwayJSONEntity();
+                entity.setCity_name(dto.getCity_name());
+                entity.setInclination(dto.getInclination());
+                entity.setQuality_description(dto.getQuality_description());
+                entity.setCOT_CONTS_GEOM(dto.getCOT_CONTS_GEOM());
+                entity.setTexture(dto.getTexture());
+                entity.setWidth(dto.getWidth());
+                log.info(entity.toString());
 
-                    walkwayJSONRepository.save(entity);
-                    Long id = entity.getId();
-                    Optional<WalkwayJSONEntity> walkwayJSONEntity = walkwayJSONRepository.findById(id);
+                walkwayJSONRepository.save(entity);
+                Long id = entity.getId();
+                Optional<WalkwayJSONEntity> walkwayJSONEntity = walkwayJSONRepository.findById(id);
 
-                    // 산책로 JSON Entity 각각에 WalkwayEntity 생성
-                    WalkwayEntity walkwayEntity = new WalkwayEntity();
-                    if (walkwayJSONEntity.isPresent()) {
-                        walkwayEntity.setWalkwayJSON(walkwayJSONEntity.get());
-                        walkwayEntity.setWalkway_description(null);
-                        walkwayEntity.setCityID(walkwayFetchDTO.getCityID());
-                        walkwayEntity.setKeyword(walkwayFetchDTO.getKeyword());
-                        walkwayEntity.setLike_count(0);
-                        walkwayRepository.save(walkwayEntity);
+                // 산책로 JSON Entity 각각에 WalkwayEntity 생성
+                WalkwayEntity walkwayEntity = new WalkwayEntity();
+                if (walkwayJSONEntity.isPresent()) {
+                    walkwayEntity.setWalkwayJSON(walkwayJSONEntity.get());
+                    walkwayEntity.setWalkway_description(null);
+                    walkwayEntity.setCityID(walkwayFetchDTO.getCityID());
+                    walkwayEntity.setKeyword(walkwayFetchDTO.getKeyword());
+                    walkwayEntity.setLike_count(0);
+                    walkwayRepository.save(walkwayEntity);
 
-                    } else {
-                        throw new CustomException(ErrorCode.WALKWAY_JSON_NOT_FOUND);
-                    }
-                } else continue;
+                } else {
+                    throw new CustomException(ErrorCode.WALKWAY_JSON_NOT_FOUND);
+                }
             }
             List<WalkwayEntity> filteredWalkwayList = getWalkwayList(walkwayFetchDTO.getCityID(), walkwayFetchDTO.getKeyword());
 
