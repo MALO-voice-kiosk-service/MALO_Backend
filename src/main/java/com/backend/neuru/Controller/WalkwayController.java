@@ -29,4 +29,14 @@ public class WalkwayController {
             return ResponseDTO.error("서울맵에 산책로 리스트 가져와서 DB 저장 실패");
         }
     }
+
+    @PostMapping(value = "/summaryWalkway/{id}")
+    public String summaryWalkway(@PathVariable("id") Long id) {
+        try {
+            return walkwayService.getSummary(id);
+        }catch (IOException e){
+            return "네이버 클로바에 요약 요청 실패";
+        }
+
+    }
 }
