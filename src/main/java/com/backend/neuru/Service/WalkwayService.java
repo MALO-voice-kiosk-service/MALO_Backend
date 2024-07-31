@@ -1,11 +1,11 @@
 package com.backend.neuru.Service;
 
+import com.backend.neuru.DTO.PostDTO;
 import com.backend.neuru.DTO.ResponseDTO;
 import com.backend.neuru.DTO.WalkwayDTO;
-import com.backend.neuru.Entity.CityEntity;
-import com.backend.neuru.Entity.WalkwayEntity;
-import com.backend.neuru.Entity.WalkwayJSONEntity;
+import com.backend.neuru.Entity.*;
 import com.backend.neuru.Repository.CityRepository;
+import com.backend.neuru.Repository.MyWalkwayRepository;
 import com.backend.neuru.Repository.WalkwayJSONRepository;
 import com.backend.neuru.Repository.WalkwayRepository;
 import com.backend.neuru.exception.CustomException;
@@ -33,6 +33,7 @@ public class WalkwayService {
     private final WalkwayJSONRepository walkwayJSONRepository;
     private final WalkwayRepository walkwayRepository;
     private final CityRepository cityRepository;
+    private final MyWalkwayRepository myWalkwayRepository;
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -262,5 +263,24 @@ public class WalkwayService {
 
         return ResponseDTO.success("산책로 상세 정보 조회 성공", responseDTO);
 
+    }
+
+    @Transactional
+    public ResponseDTO<?> registerMyWalkway(Long walkway_id) {
+        MyWalkwayEntity myWalkwayEntity = new MyWalkwayEntity();
+        Optional<WalkwayEntity> walkwayEntity = walkwayRepository.findById(walkway_id);
+        if(walkwayEntity.isPresent()){
+            myWalkwayEntity.setWalkway(walkwayEntity.get());
+            myWalkwayRepository.save(myWalkwayEntity);
+            return ResponseDTO.success("달성한 산책로 등록 성공", myWalkwayEntity);
+        } else{
+            return ResponseDTO.error("달성한 산책로 등록 실패");
+        }
+    }
+
+    @Transactional
+    public ResponseDTO<?> getMyWalkway(){
+        List<MyWalkwayEntity> myWalkwayEntityList = myWalkwayRepository.findAll();
+        return ResponseDTO.success("달성한 산책로 조회 성공", myWalkwayEntityList);
     }
 }

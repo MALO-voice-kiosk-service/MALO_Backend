@@ -61,7 +61,14 @@ public class WalkwayController {
             return empty;
         }
     }
-}
 
-//    @GetMapping(value = "/{id}")
-//    public ResponseDTO<?> getWalkwayInfo(@PathVariable("id") Long id) {}
+    @PostMapping(value = "/my")
+    public ResponseDTO<?> registerMyWalkway(@RequestParam Long walkway_id) {
+        return walkwayService.registerMyWalkway(walkway_id);
+    }
+
+    @GetMapping(value = "/my")
+    public ResponseDTO<?> getMyWalkway(){
+        return walkwayService.getMyWalkway();
+    }
+}
