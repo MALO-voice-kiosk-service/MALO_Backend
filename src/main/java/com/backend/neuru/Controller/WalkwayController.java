@@ -39,4 +39,7 @@ public class WalkwayController {
         }
 
     }
+
+//    @GetMapping(value = "/{id}")
+//    public ResponseDTO<?> getWalkwayInfo(@PathVariable("id") Long id) {}
 }

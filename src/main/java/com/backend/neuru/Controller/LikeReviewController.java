@@ -22,7 +22,7 @@ public class LikeReviewController {
 
     // 산책로 리뷰 등록 API
     @PostMapping(value = "/review/{id}")
-    public ResponseDTO<?> registerReview(@PathVariable("id") Long walk_id, @RequestParam String reviewContents) throws Exception {
+    public ResponseDTO<?> registerReview(@PathVariable("id") Long walk_id, @RequestBody String reviewContents) throws Exception {
         return likeReviewService.registerReview(walk_id, reviewContents);
     }
 
