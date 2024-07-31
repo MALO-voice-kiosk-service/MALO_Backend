@@ -44,8 +44,8 @@ public class LocationController {
 
     // 장소 조회 API
     @GetMapping(value = "")
-    public ResponseDTO<?> getLocation(@RequestParam int category) throws IOException {
-        return locationService.getLocations(category);
+    public ResponseDTO<?> getLocation(@RequestParam int category, @RequestParam Long walkway_id) throws IOException {
+        return locationService.getLocations(category, walkway_id);
     }
 
     // 서울맵 화장실 요청 및 장소 DB 등록 API

@@ -63,7 +63,12 @@ public class LocationService {
     }
 
     @Transactional
-    public ResponseDTO<?> getLocations(int category) throws IOException {
+    public ResponseDTO<?> getLocations(int category, Long walkway_id) throws IOException {
+        if(category == 0){
+            fetchToiletAndSave(walkway_id);
+        } else if(category == 1){
+            fetchChargeAndSave(walkway_id);
+        }
         List<LocationEntity> locationEntities = locationRepository.findByCategory(category);
         return ResponseDTO.success("카테고리에 해당하는 장소 조회 완료", locationEntities);
     }
