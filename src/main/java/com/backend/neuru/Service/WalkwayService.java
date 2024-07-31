@@ -34,7 +34,8 @@ public class WalkwayService {
 
     @Transactional
     public ResponseDTO<?> fetchDataAndSave(WalkwayDTO.walkwayFetchDTO walkwayFetchDTO) throws IOException {
-        log.info(walkwayFetchDTO.toString());
+        log.info("프론트 입력받은 cityID : ", walkwayFetchDTO.getCityID());
+        log.info("프론트 입력받은 KEYWORD : ", walkwayFetchDTO.getKeyword());
         Optional<CityEntity> cityEntity = cityRepository.findById(walkwayFetchDTO.getCityID());
         if (cityEntity.isPresent()) {
             String url1 = String.format("https://map.seoul.go.kr/openapi/v5/KEY80_d205ac47ac50400588ae474e5c0f3e2b/public/themes/contents/ko?page_size=20&page_no=1&coord_x=%s&coord_y=%s&distance=2000&search_type=0&search_name=&theme_id=11102801", cityEntity.get().getCOT_COORD_X(), cityEntity.get().getCOT_COORD_Y());
