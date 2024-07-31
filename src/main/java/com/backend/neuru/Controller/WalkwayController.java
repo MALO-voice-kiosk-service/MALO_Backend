@@ -19,12 +19,7 @@ import java.io.IOException;
 @Validated
 public class WalkwayController {
     @Autowired
-    private WalkwayService walkwayService;
-
-    @Autowired
-    public WalkwayController(WalkwayService walkwayService){
-        this.walkwayService = walkwayService;
-    }
+    private final WalkwayService walkwayService;
 
     @PostMapping(value = "/fetchWalkwayData")
     public ResponseDTO<?> fetchWalkwayData(@RequestBody WalkwayDTO.walkwayFetchDTO walkwayFetchDTO) {
