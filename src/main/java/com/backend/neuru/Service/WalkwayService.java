@@ -15,8 +15,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
 
 import java.io.IOException;
 import java.util.Optional;
@@ -127,4 +130,71 @@ public class WalkwayService {
         }
 
     }
+
+    @Transactional
+    public String getSummary(Long walkway_id) throws IOException
+    {
+        Optional<WalkwayEntity> walkwayEntity0 = walkwayRepository.findById(walkway_id);
+        WalkwayEntity walkwayEntity = walkwayEntity0.get();
+        WalkwayJSONEntity jsonEntity = walkwayEntity.getWalkwayJSON();
+
+        String incline = jsonEntity.getInclination();
+        String width = jsonEntity.getWidth();
+        String texture = jsonEntity.getTexture();
+        String standard = jsonEntity.getQuality_description();
+
+        String sendData = incline + standard + texture + width;
+
+        String url = "https://clovastudio.apigw.ntruss.com/testapp/v1/tasks/4ce8i8fw/completions";
+
+        // Set up headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-NCP-CLOVASTUDIO-API-KEY", "NTA0MjU2MWZlZTcxNDJiY8ZPMjWp2NG7Bwakg0rISBmhJbtWHS1JGai9AQ1qbRu5");
+        headers.set("X-NCP-APIGW-API-KEY", "6bVMu6hHIDtbrpCEHcCzMtwk0TwMI64Y1DtV0B82");
+        headers.set("X-NCP-CLOVASTUDIO-REQUEST-ID", "6a261f99-279a-4ddf-8102-1012466a7a65");
+        headers.set("Content-Type", "application/json");
+
+        String jsonBody = "{\n" +
+                "  \"text\" : \"" + sendData + "\",\n" +
+                "  \"start\" : \"\",\n" +
+                "  \"restart\" : \"\",\n" +
+                "  \"includeTokens\" : false,\n" +
+                "  \"topP\" : 0.8,\n" +
+                "  \"topK\" : 4,\n" +
+                "  \"maxTokens\" : 300,\n" +
+                "  \"temperature\" : 0.85,\n" +
+                "  \"repeatPenalty\" : 5.0,\n" +
+                "  \"stopBefore\" : [ \"<|endoftext|>\" ],\n" +
+                "  \"includeProbs\" : false,\n" +
+                "  \"includeAiFilters\" : true\n" +
+                "}";
+
+        // Create HttpEntity with headers and body
+        HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
+
+        String res = "";
+        try {
+            // Send POST request
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+            String responseBody = response.getBody();
+
+            JsonNode rootNode = objectMapper.readTree(responseBody);
+            JsonNode resultNode = rootNode.path("result");
+            // 산책로 설명문
+            String text = resultNode.path("text").asText();
+
+//            res = text;
+
+            walkwayEntity.setWalkway_description(text);
+            walkwayRepository.save(walkwayEntity);
+
+        } catch (HttpClientErrorException e) {
+            System.out.println("HTTP Error: " + e.getStatusCode());
+            System.out.println("Response Body: " + e.getResponseBodyAsString());
+        }
+
+        return res;
+    }
+
 }
