@@ -48,6 +48,7 @@ public class LocationController {
         return locationService.getLocations(category);
     }
 
+    // 서울맵 화장실 요청 및 장소 DB 등록 API
     @PostMapping("/fetchToiletData")
     public ResponseDTO<?>  fetchToiletData(@RequestParam Long walk_id)
     {
@@ -58,6 +59,7 @@ public class LocationController {
         }
     }
 
+    // 서울맵 충전기 요청 및 장소 DB 등록 API
     @PostMapping("/fetchChargeData")
     public ResponseDTO<?> fetchChargeData(@RequestParam Long walk_id)
     {
@@ -66,5 +68,11 @@ public class LocationController {
         } catch (IOException e) {
             return ResponseDTO.error("서울맵에 충전기 리스트 가져와서 DB 저장 실패");
         }
+    }
+
+    // 장소 광고 유무 수정 API
+    @PutMapping(value = "/{id}")
+    public ResponseDTO<?> putLocation(@PathVariable("id") Long id, @RequestParam Boolean is_ad) throws IOException {
+        return locationService.putLocation(id, is_ad);
     }
 }

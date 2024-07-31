@@ -6,6 +6,8 @@ import com.backend.neuru.Repository.CityRepository;
 import com.backend.neuru.Repository.LocationRepository;
 import com.backend.neuru.Repository.WalkwayJSONRepository;
 import com.backend.neuru.Repository.WalkwayRepository;
+import com.backend.neuru.exception.CustomException;
+import com.backend.neuru.exception.ErrorCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,6 +67,21 @@ public class LocationService {
         List<LocationEntity> locationEntities = locationRepository.findByCategory(category);
         return ResponseDTO.success("카테고리에 해당하는 장소 조회 완료", locationEntities);
     }
+
+    @Transactional
+    public ResponseDTO<?> putLocation(Long id, Boolean is_ad) throws IOException {
+        Optional<LocationEntity> locationEntity = locationRepository.findById(id);
+        if (locationEntity.isPresent()) {
+            LocationEntity locationEntity1 = locationEntity.get();
+            locationEntity1.setIs_ad(is_ad);
+            locationRepository.save(locationEntity1);
+            return ResponseDTO.success("카테고리에 해당하는 장소 조회 완료", locationEntity1);
+        } else{
+            throw new CustomException(ErrorCode.LOCATION_NOT_FOUND);
+        }
+
+    }
+
 
     @Transactional
     public ResponseDTO<?> fetchToiletAndSave(Long walkway_id) throws IOException {
