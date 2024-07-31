@@ -2,6 +2,7 @@ package com.backend.neuru.Service;
 
 import com.backend.neuru.DTO.PostDTO;
 import com.backend.neuru.DTO.ResponseDTO;
+import com.backend.neuru.DTO.ReviewDTO;
 import com.backend.neuru.Entity.LikeEntity;
 import com.backend.neuru.Entity.ReviewEntity;
 import com.backend.neuru.Entity.WalkwayEntity;
@@ -33,7 +34,12 @@ public class LikeReviewService {
         reviewEntity.setReview_content(reviewContents);
         reviewEntity.setWalkway(walkway);
         reviewRepository.save(reviewEntity);
-        return ResponseDTO.success("산책로 리뷰 등록 완료", reviewEntity);
+
+        ReviewDTO.reviewResponseDTO reviewDTO = new ReviewDTO.reviewResponseDTO();
+        reviewDTO.setReview_id(reviewEntity.getId());
+        reviewDTO.setReview_content(reviewEntity.getReview_content());
+
+        return ResponseDTO.success("산책로 리뷰 등록 완료", reviewDTO);
     }
 
 //    @Transactional
@@ -55,7 +61,16 @@ public class LikeReviewService {
         // WalkwayEntity를 기준으로 ReviewEntity들을 조회합니다.
         List<ReviewEntity> reviewEntityList = reviewRepository.findByWalkway(walkway);
 
-        return ResponseDTO.success("산책로 리뷰 조회 완료", reviewEntityList);
+        List<ReviewDTO.reviewResponseDTO> reviewResponseDTOS = reviewEntityList.stream()
+                .map(reviewEntity -> {
+                    ReviewDTO.reviewResponseDTO reviewDTO = new ReviewDTO.reviewResponseDTO();
+                    reviewDTO.setReview_content(reviewEntity.getReview_content());
+                    reviewDTO.setReview_id(reviewEntity.getId());
+                    return reviewDTO;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseDTO.success("산책로 리뷰 조회 완료", reviewResponseDTOS);
     }
 
 
