@@ -33,6 +33,15 @@ public class WalkwayController {
         }
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseDTO<?> getOneWalkway(@PathVariable Long id) {
+        try {
+            return walkwayService.getOneWalkway(id);
+        } catch (IOException e) {
+            return ResponseDTO.error("산책로 상세 정보 조회 실패");
+        }
+    }
+
     @PostMapping(value = "/summaryWalkway/{id}")
     public ResponseDTO<?> summaryWalkway(@PathVariable("id") Long id) {
         try {

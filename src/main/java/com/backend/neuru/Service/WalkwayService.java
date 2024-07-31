@@ -224,7 +224,7 @@ public class WalkwayService {
             String width = jsonEntity.getWidth();
 
             // 추천 리스트 10개 넘으면 그만
-            if(cnt > 10)
+            if(cnt == 10)
                 break;
 
             if(keyword == 0) // 혼자
@@ -233,16 +233,14 @@ public class WalkwayService {
                     returnList.add(walkwayEntity);
                     cnt++;
                 }
-            }
-            else if(keyword == 1) // 반려견
+            } else if(keyword == 1) // 반려견
             {
                 if(width.contains("1.8m이상"))
                 {
                     returnList.add(walkwayEntity);
                     cnt++;
                 }
-            }
-            else // 동반자
+            } else // 동반자
             {
                 returnList.add(walkwayEntity);
                 cnt++;
@@ -250,5 +248,19 @@ public class WalkwayService {
 
         }
         return returnList;
+    }
+
+    @Transactional
+    public ResponseDTO<?> getOneWalkway(Long walkway_id) throws IOException{
+        Optional<WalkwayEntity> walkwayEntity = walkwayRepository.findById(walkway_id);
+
+        WalkwayDTO.OneWalkwayResponseDTO responseDTO = new WalkwayDTO.OneWalkwayResponseDTO();
+        responseDTO.setWalkway_description(walkwayEntity.get().getWalkway_description());
+        responseDTO.setWalkwayID(walkwayEntity.get().getId());
+        responseDTO.setLikeCount(walkwayEntity.get().getLike_count());
+        responseDTO.setCityID(walkwayEntity.get().getCityID());
+
+        return ResponseDTO.success("산책로 상세 정보 조회 성공", responseDTO);
+
     }
 }

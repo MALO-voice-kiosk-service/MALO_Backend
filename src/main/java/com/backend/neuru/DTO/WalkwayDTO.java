@@ -38,5 +38,15 @@ public class WalkwayDTO {
         @Size(max = 100000)
         private String COT_CONTS_GEOM;
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class OneWalkwayResponseDTO{
+        private Long walkwayID;
+        private Long cityID;
+        private int likeCount;
+        private String walkway_description;
+    }
 }
 
