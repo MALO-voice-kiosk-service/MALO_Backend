@@ -75,7 +75,7 @@ public class LocationService {
             LocationEntity locationEntity1 = locationEntity.get();
             locationEntity1.setIs_ad(is_ad);
             locationRepository.save(locationEntity1);
-            return ResponseDTO.success("카테고리에 해당하는 장소 조회 완료", locationEntity1);
+            return ResponseDTO.success("장소 광고 유무 수정 완료", locationEntity1);
         } else{
             throw new CustomException(ErrorCode.LOCATION_NOT_FOUND);
         }
