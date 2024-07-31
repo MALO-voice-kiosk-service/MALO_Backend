@@ -27,9 +27,15 @@ public class LikeReviewController {
     }
 
     // 산책로 리뷰 수정 API
-    @PutMapping(value = "/review/{id}")
-    public ResponseDTO<?> fixReview(@PathVariable("id") Long walk_id, @RequestParam String commentContent) {
-        return likeReviewService.fixReview(walk_id, commentContent);
+//    @PutMapping(value = "/review/{id}")
+//    public ResponseDTO<?> fixReview(@PathVariable("id") Long walk_id, @RequestParam String reviewContents) {
+//        return likeReviewService.fixReview(walk_id, reviewContents);
+//    }
+
+    // 산책로 리뷰 조회 API
+    @GetMapping(value = "/review/{id}")
+    public ResponseDTO<?> getReview(@PathVariable("id") Long walk_id) throws Exception {
+        return likeReviewService.getReviews(walk_id);
     }
 
     @PostMapping(value = "/like/{id}")

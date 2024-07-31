@@ -1,5 +1,6 @@
 package com.backend.neuru.Service;
 
+import com.backend.neuru.DTO.PostDTO;
 import com.backend.neuru.DTO.ResponseDTO;
 import com.backend.neuru.Entity.LikeEntity;
 import com.backend.neuru.Entity.ReviewEntity;
@@ -14,7 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,13 +36,26 @@ public class LikeReviewService {
         return ResponseDTO.success("산책로 리뷰 등록 완료", reviewEntity);
     }
 
+//    @Transactional
+//    public ResponseDTO<?> fixReview(Long walk_id, String reviewContents) {
+//        WalkwayEntity walkway = walkwayRepository.findById(walk_id).get();
+//        Optional<ReviewEntity> reviewEntity = reviewRepository.findByWalkway(walkway);
+//        reviewEntity.ifPresent(reviewEntity1 -> reviewEntity1.setReview_content(reviewContents));
+//        reviewRepository.save(reviewEntity.get());
+//        return ResponseDTO.success("산책로 리뷰 수정 완료", reviewEntity);
+//    }
+
     @Transactional
-    public ResponseDTO<?> fixReview(Long walk_id, String reviewContents) {
-        WalkwayEntity walkway = walkwayRepository.findById(walk_id).get();
-        Optional<ReviewEntity> reviewEntity = reviewRepository.findByWalkway(walkway);
-        reviewEntity.ifPresent(reviewEntity1 -> reviewEntity1.setReview_content(reviewContents));
-        reviewRepository.save(reviewEntity.get());
-        return ResponseDTO.success("산책로 리뷰 수정 완료", reviewEntity);
+    public ResponseDTO<?> getReviews(Long walk_id) {
+
+        // 주어진 walk_id로 WalkwayEntity를 조회합니다.
+        WalkwayEntity walkway = walkwayRepository.findById(walk_id)
+                .orElseThrow(() -> new NoSuchElementException("No walkway found with id: " + walk_id));
+
+        // WalkwayEntity를 기준으로 ReviewEntity들을 조회합니다.
+        List<ReviewEntity> reviewEntityList = reviewRepository.findByWalkway(walkway);
+
+        return ResponseDTO.success("산책로 리뷰 조회 완료", reviewEntityList);
     }
 
 
