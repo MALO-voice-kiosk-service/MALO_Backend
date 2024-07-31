@@ -25,8 +25,8 @@ public class LikeReviewService {
     private final WalkwayRepository walkwayRepository;
 
     @Transactional
-    public ResponseDTO<?> registerReview(Long id, String reviewContents) {
-        WalkwayEntity walkway = walkwayRepository.findById(id).get();
+    public ResponseDTO<?> registerReview(Long walk_id, String reviewContents) {
+        WalkwayEntity walkway = walkwayRepository.findById(walk_id).get();
         ReviewEntity reviewEntity = new ReviewEntity();
         reviewEntity.setReview_content(reviewContents);
         reviewEntity.setWalkway(walkway);
@@ -35,8 +35,8 @@ public class LikeReviewService {
     }
 
     @Transactional
-    public ResponseDTO<?> fixReview(Long id, String reviewContents) {
-        WalkwayEntity walkway = walkwayRepository.findById(id).get();
+    public ResponseDTO<?> fixReview(Long walk_id, String reviewContents) {
+        WalkwayEntity walkway = walkwayRepository.findById(walk_id).get();
         Optional<ReviewEntity> reviewEntity = reviewRepository.findByWalkway(walkway);
         reviewEntity.ifPresent(reviewEntity1 -> reviewEntity1.setReview_content(reviewContents));
         reviewRepository.save(reviewEntity.get());
@@ -45,26 +45,27 @@ public class LikeReviewService {
 
 
     @Transactional
-    public ResponseDTO<?> registerLike(Long id) {
-        LikeEntity likeEntity = new LikeEntity();
-        WalkwayEntity walkway = walkwayRepository.findById(id).get();
-
-        likeEntity.setWalkway(walkway);
-        likeRepository.save(likeEntity);
-        return ResponseDTO.success("산책로 좋아요 등록 완료", likeEntity);
+    public ResponseDTO<?> registerLike(Long walk_id) {
+        WalkwayEntity walkway = walkwayRepository.findById(walk_id).get();
+        int likeCount = walkway.getLike_count();
+        likeCount = likeCount + 1;
+        walkway.setLike_count(likeCount);
+        walkwayRepository.save(walkway);
+        return ResponseDTO.success("산책로 좋아요 수 증가 완료", walkway);
     }
 
     @Transactional
-    public ResponseDTO<?> deleteLike(Long id) {
-        WalkwayEntity walkway = walkwayRepository.findById(id).get();
-        Optional<LikeEntity> likeEntity = likeRepository.findByWalkway(walkway);
-        if (likeEntity.isPresent()) {
-            likeRepository.delete(likeEntity.get());
-            return ResponseDTO.success("산책로 좋아요 삭제 완료", likeEntity);
+    public ResponseDTO<?> deleteLike(Long walk_id) {
+        WalkwayEntity walkway = walkwayRepository.findById(walk_id).get();
+        int likeCount = walkway.getLike_count();
+        if (likeCount > 0) {
+            likeCount = likeCount - 1;
+            walkway.setLike_count(likeCount);
+            walkwayRepository.save(walkway);
+            return ResponseDTO.success("산책로 좋아요 수 감소 완료", walkway);
         } else{
-            throw new CustomException(ErrorCode.WALKWAY_LIKE_NOT_FOUND);
+            return ResponseDTO.error("기존의 좋아요 수가 0개이므로 감소할 수 없습니다.");
         }
-
     }
 
 }

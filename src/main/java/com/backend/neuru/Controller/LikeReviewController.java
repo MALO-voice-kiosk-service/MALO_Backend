@@ -22,23 +22,23 @@ public class LikeReviewController {
 
     // 산책로 리뷰 등록 API
     @PostMapping(value = "/review/{id}")
-    public ResponseDTO<?> registerReview(@PathVariable("id") Long id, @RequestBody String reviewContents) throws Exception {
-        return likeReviewService.registerReview(id, reviewContents);
+    public ResponseDTO<?> registerReview(@PathVariable("id") Long walk_id, @RequestBody String reviewContents) throws Exception {
+        return likeReviewService.registerReview(walk_id, reviewContents);
     }
 
     // 산책로 리뷰 수정 API
     @PutMapping(value = "/review/{id}")
-    public ResponseDTO<?> fixReview(@PathVariable("id") Long id, @RequestBody String commentContent) {
-        return likeReviewService.fixReview(id, commentContent);
+    public ResponseDTO<?> fixReview(@PathVariable("id") Long walk_id, @RequestBody String commentContent) {
+        return likeReviewService.fixReview(walk_id, commentContent);
     }
 
     @PostMapping(value = "/like/{id}")
-    public ResponseDTO<?> registerLike(@PathVariable("id") Long id) throws Exception {
-        return likeReviewService.registerLike(id);
+    public ResponseDTO<?> registerLike(@PathVariable("id") Long walk_id) throws Exception {
+        return likeReviewService.registerLike(walk_id);
     }
 
     @DeleteMapping(value = "/like/{id}")
-    public ResponseDTO<?> deleteLike(@PathVariable("id") Long id) throws Exception {
-        return likeReviewService.deleteLike(id);
+    public ResponseDTO<?> deleteLike(@PathVariable("id") Long walk_id) throws Exception {
+        return likeReviewService.deleteLike(walk_id);
     }
 }
